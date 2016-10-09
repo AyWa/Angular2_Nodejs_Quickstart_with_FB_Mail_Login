@@ -1,6 +1,8 @@
 # Dependency directories
 node_modules
 jspm_packages
+#build apps
+dist
 # Logs
 logs
 *.log
