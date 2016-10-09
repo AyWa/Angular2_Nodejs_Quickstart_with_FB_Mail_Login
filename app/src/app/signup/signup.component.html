@@ -1,0 +1,35 @@
+<div class="container">
+    <h1>Signup Form</h1>
+    <form [formGroup]="registerForm" (ngSubmit)="onSignin(registerForm.value)">
+      <div class="form-group">
+        <fieldset formGroupName="profile">
+          <label for="firstName">firstname</label>
+          <input class="form-control" type="text" formControlName="firstName">
+          <div [hidden]="registerForm.controls.profile.controls.firstName.valid || registerForm.controls.profile.controls.firstName.pristine" class="alert alert-danger">firstname</div>
+          <label for="lastName">lastName</label>
+          <input class="form-control" type="text" formControlName="lastName">
+          <div [hidden]="registerForm.controls.profile.controls.lastName.valid || registerForm.controls.profile.controls.lastName.pristine" class="alert alert-danger">firstname</div>
+          <label for="city">city</label>
+          <input class="form-control" type="text" formControlName="city">
+          <label for="phone">phone</label>
+          <input class="form-control" type="text" formControlName="phone">
+          <label for="birthDay">birthday</label>
+          <input class="form-control" placeholder="dd-mm-yyyy" name="birthDay" formControlName="birthDay" ngbDatepicker #d="ngbDatepicker">
+          <button type="button" class="btn btn-default" (click)="d.toggle()">
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+          </button>
+          <label for="gender">gender</label>
+          <input class="form-control" type="text" formControlName="gender">
+        </fieldset>
+        <fieldset formGroupName="data">
+          <label for="email">email</label>
+          <input class="form-control" type="email" formControlName="email">
+          <div [hidden]="registerForm.controls.data.controls.email.valid || registerForm.controls.data.controls.email.pristine" class="alert alert-danger">Email invalide</div>
+          <label for="password">password</label>
+          <input class="form-control" type="password" formControlName="password">
+          <div [hidden]="registerForm.controls.data.controls.password.valid || registerForm.controls.data.controls.password.pristine" class="alert alert-danger">Password invalide</div>
+        </fieldset>
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="!registerForm.valid">sign in</button>
+      </div>
+    </form>
+</div>
