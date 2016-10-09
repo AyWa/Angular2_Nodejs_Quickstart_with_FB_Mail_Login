@@ -27,7 +27,7 @@ module.exports = function(passport) {
   passport.use(new fbStrategy({
       clientID: config.FACEBOOK_APP_ID,
       clientSecret: config.FACEBOOK_APP_SECRET,
-      callbackURL: 'http://mhurabielle.fr:443/auth/facebook/callback',
+      callbackURL: config.FACEBOOK_CALL_BACK,
       profileFields: ['id','first_name', 'last_name', 'photos', 'emails', 'gender', 'birthday']
     },
     function(accessToken, refreshToken, profile, cb) {

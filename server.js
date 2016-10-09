@@ -28,4 +28,4 @@ app.use('/', routes);
 mongoose.connect(config.database);
 // Start the server
 app.listen(port);
-console.log('There will be dragons: http://localhost:' + port);
+console.log('watch out your app: http://localhost:' + port);
