@@ -1,9 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt');
-
-
-
+var bcrypt = require('bcryptjs');
 
 //todo birthday //age based on birthday
 var UserSchema = new Schema({
@@ -13,18 +10,42 @@ var UserSchema = new Schema({
     lastName: {type: String, trim: true, required: true },
     city: {type: String},
     phone: {type: String},
-    birthDay: {type: String, required: true},
-    gender: {type: String, enum: ["male","female"], required: true},
-    age: {type: Number, min: 13, max: 120}
+    birthDay: {type: Date, required: true},
+    gender: {type: String, lowercase: true, enum: ["male","female","licorn"], required: true},
+    age: {type: Number, min: 13, max: 120},
+    image: {type: String,trim: true}
   },
   data: {
     email: { type: String, unique: true, lowercase: true, trim: true, required: true },
-    facebookId: {type: String, unique: true, lowercase: true, trim: true},
+    facebookId: {type: String, lowercase: true, trim: true},
     password: {type: String, trim: true},
     passwordResetToken: {type: String},
     passwordResetExpires: {type: Date},
     isAdmin: {type: Boolean, required: true, default: false},
   },
+  position: {
+    lastPosition: {type: String}
+  },
+  preferences: {
+    placeLiked: [{
+      id: {type: mongoose.Schema.Types.ObjectId, ref: 'Place'},
+      dateJoined: {type: Date, default: Date.now}
+    }],
+    placeDisLiked: [{
+      id: {type: mongoose.Schema.Types.ObjectId, ref: 'Place'},
+      dateJoined: {type: Date, default: Date.now}
+    }]
+  },
+  friends:{
+    accepted:[{
+      id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+      dateAccepted: {type: Date, default: Date.now}
+    }],
+    pending:[{
+      id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+      dateAccepted: {type: Date, default: Date.now}
+    }]
+  }
 });
 
 UserSchema.pre('save', function (next) {

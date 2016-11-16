@@ -4,10 +4,9 @@ var router    = express.Router();
 var config    = require('../config/database'); // get db config file
 var User      = require('../models/user'); // get the mongoose model
 var jwt 			= require('jwt-simple');
-var path = '/home/marc/mesServeurs/dev/node-rest-auth/' + '/dist/';
 
 
-router.get('/auth/facebook',passport.authenticate('facebook',{scope: ['email','user_birthday']}));
+router.get('/auth/facebook',passport.authenticate('facebook',{scope: ['email','user_birthday','user_location','user_friends']}));
 
 router.get('/auth/facebook/callback',passport.authenticate('facebook',{ session: false, failureRedirect: '/'}),
   function(req, res) {
@@ -66,29 +65,38 @@ router.get('/memberinfo', passport.authenticate('jwt', { session: false}), funct
   var user=req.user;
   res.json({success: true, msg: 'Welcome in the member area ' + user.profile.firstName +' ' +user.profile.lastName + '!'});
 });
-
-/*
-router.get('/memberinfo', function(req, res) {
-  console.log(req.user);
-  var token = getToken(req.headers);
-  if (token) {
-    var decoded = jwt.decode(token, config.secret);
-    User.findOne({
-      "data.email": decoded.email
-    }, function(err, user) {
-        if (err) throw err;
-        if (!user) {
-          return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
-        } else {
-          res.json({success: true, msg: 'Welcome in the member area ' + user.profile.firstName + user.profile.lastName + '!'});
-        }
-    });
-  } else {
-    return res.status(403).send({success: false, msg: 'No token provided.'});
-  }
-}); */
-router.get('*', function(req, res) {
-  res.sendFile(path +'index.html');
+router.post('/editprofile', passport.authenticate('jwt', { session: false}), function(req, res){
+  var user=req.user;
+  console.log(user);
+  User.findOneAndUpdate(
+    {"_id": req.user._id},
+    {
+      $set:{
+        'profile.firstName' : req.body.new_user_profile.profile.firstName,
+        'profile.lastName' : req.body.new_user_profile.profile.lastName,
+        'profile.city' : req.body.new_user_profile.profile.city,
+        'profile.phone' : req.body.new_user_profile.profile.phone,
+      }
+    },{new:true},//return the updated doc
+    function(err,user_updated) {
+      console.log(user_updated);
+      if(err) res.json({success: false});
+      else res.json({success: true,user_updated});
+  });
+});
+router.get('/privateprofile', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var user=req.user.profile;
+  res.json({success: true,user});
+});
+router.get('/myfriends', passport.authenticate('jwt', { session: false}), function(req, res){
+  var user=req.user.profile;
+  User.find({
+    'friends': ''
+  },function(err,friends){
+    console.log('hey');
+    console.log(friends)
+    res.json({success: true,friends});
+  })
 });
 getToken = function (headers) {
   if (headers && headers.authorization) {

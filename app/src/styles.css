@@ -16,3 +16,53 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+input{
+  height: 40px;
+}
+div.form_size{
+  height: 87px;
+}
+.img-responsive {
+  width:100%;
+  height:auto;
+}
+.ico_32{
+  width: 32px;
+}
+.list-center{
+  text-align: center;
+}
+.center-text{
+  text-align: center;
+  margin: 0px 0px 0px 0px !important;
+}
+.form-control-feedback{
+  display: inline;
+  float: right;
+  margin: 0px 0px 0px 0px;
+}
+input.calendar-input {
+  display: inline-block;
+  width: calc(100% - 40px);
+  border-right: none;
+  border-radius: 0.25em 0 0 0.25em;
+}
+.calendar-button {
+  cursor: pointer;
+  float: right;
+  width: 40px;
+  height: 40px;
+  border-left: none;
+}
+.navbar{
+  border-radius: 0rem;
+}
+ngb-datepicker.dropdown-menu{
+	left: calc(100% - 220px);
+}
+.row{
+  margin: 0px 0px 0px 0px;
+}
+.nopad{
+  padding: 0px 0px 0px 0px;
+}
